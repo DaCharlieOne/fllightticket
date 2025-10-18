@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Boarding Pass — FlightStream</title>
+<style>
+  :root{--bg:#0b1b2b;--card:#fff;--accent:#ff8a00;--muted:#9aa7b7}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#072033 0%, #0b2740 100%);color:#072033;display:flex;align-items:center;justify-content:center;height:100vh;padding:20px}
+  .ticket{width:980px;max-width:100%;background:var(--card);border-radius:14px;box-shadow:0 10px 30px rgba(2,6,23,.45);overflow:hidden;display:grid;grid-template-columns:1fr 320px}
+  .left{padding:28px 30px}
+  .right{background:linear-gradient(180deg,#07192a,#0b2a3f);color:#fff;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .airline{display:flex;align-items:center;gap:14px}
+  .logo{width:68px;height:68px;border-radius:10px;background:linear-gradient(45deg,var(--accent),#ff4d6d);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px}
+  h1{margin:8px 0 2px;font-size:20px}
+  .muted{color:var(--muted);font-size:13px;margin-bottom:12px}
+  .big{font-size:48px;font-weight:700;margin:10px 0}
+  .row{display:flex;gap:18px;margin-top:18px}
+  .col{flex:1}
+  .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+  .value{font-size:18px;font-weight:700}
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:10px;background:var(--accent);color:#082032;font-weight:700;border:none;cursor:pointer;text-decoration:none}
+  .small{font-size:13px;color:#d6e6f3;margin-top:8px}
+  .ticket:after{content:"";position:absolute;right:320px;width:1px;height:100%;background:repeating-linear-gradient(180deg,#eee 0 6px,transparent 6px 12px);transform:translateX(-.5px)}
+  .right p{margin:0 0 10px}
+  .countdown{margin-top:10px;font-weight:700;color:#ffd9b3}
+  @media (max-width:820px){.ticket{grid-template-columns:1fr} .ticket:after{display:none}}
+</style>
+</head>
+<body>
+  <div class="ticket" role="article" aria-label="Boarding pass">
+    <div class="left">
+      <div class="airline">
+        <div class="logo">FL</div>
+        <div>
+          <div class="muted">Flugstream</div>
+          <h1>FlightStream BANGKOK - MOSCOW</h1>
+          <div class="small">Live‑Stream: Virtuelle Flugbegleitung & Cockpit mit DaCharliePilot</div>
+        </div>
+      </div>
+
+      <div class="big">BANGKOK ✈︎ MOSCOW </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="label">Flug</div>
+          <div class="value">AFL/SU273</div>
+        </div>
+        <div class="col">
+          <div class="label">Route</div>
+          <div class="value">VTBS-UUEE</div>
+        </div>
+        <div class="col">
+          <div class="label">Datum</div>
+          <div class="value">Heute</div>
+        </div>
+      </div>
+
+      <div style="margin-top:22px">
+        <div class="label">Passagier</div>
+        <div class="value">Gast</div>
+      </div>
+
+      <div style="margin-top:22px">
+        <a id="goBtn" class="btn" href="#" role="button">Zum Stream ▶️</a>
+        <div class="small">Du wirst automatisch weitergeleitet in <span id="seconds">8</span> Sekunden.</div>
+      </div>
+
+    </div>
+
+    <div class="right">
+      <p style="font-size:18px;font-weight:700">Boarding</p>
+      <p class="muted">Bereit zum Abheben?</p>
+      <div style="font-size:44px;font-weight:800;letter-spacing:6px">A1</div>
+      <div class="countdown">Sichere dir den besten Platz — viel Spaß!</div>
+    </div>
+  </div>
+
+<script>
+  // === KONFIGURATION ===
+  const targetUrl = "https://youtube.com/live/rm00No1PCyw?feature=share"; // <-- hier YouTube Link einfügen
+  const redirectAfter = 8 * 1000; // ms bis automatische Weiterleitung (aktuell 8000ms)
+  // =====================
+
+  const btn = document.getElementById('goBtn');
+  const sec = document.getElementById('seconds');
+  btn.href = targetUrl;
+
+  let remaining = Math.ceil(redirectAfter / 1000);
+  sec.textContent = remaining;
+
+  const countdown = setInterval(() => {
+    remaining -= 1;
+    sec.textContent = remaining;
+    if (remaining <= 0) clearInterval(countdown);
+  }, 1000);
+
+  setTimeout(() => {
+    window.location.href = targetUrl;
+  }, redirectAfter);
+</script>
+</body>
+</html>
